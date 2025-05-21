@@ -1,12 +1,14 @@
 {
   "name": "multi-commerce",
   "version": "0.1.0",
+  "type": "module",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "generate:types": "payload generate:types"
   },
   "dependencies": {
     "@payloadcms/db-mongodb": "^3.38.0",
