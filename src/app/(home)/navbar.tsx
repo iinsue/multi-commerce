@@ -1,11 +1,15 @@
 "use client";
 
 import Link from "next/link";
+import { useState } from "react";
 import { Poppins } from "next/font/google";
+import { usePathname } from "next/navigation";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { usePathname } from "next/navigation";
+
+import { NavbarSidebar } from "./navbar-sidebar";
+import { MenuIcon } from "lucide-react";
 
 // poppins폰트는 굵기700만 제공합니다.
 const poppins = Poppins({
@@ -44,6 +48,7 @@ const navbarItems = [
 
 export const Navbar = () => {
   const pathname = usePathname();
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   return (
     <nav className="h-20 flex border-b justify-between font-medium bg-white">
@@ -65,6 +70,13 @@ export const Navbar = () => {
         ))}
       </div>
 
+      {/* 모바일 용 사이드 바 */}
+      <NavbarSidebar
+        items={navbarItems}
+        open={isSidebarOpen}
+        onOpenChange={setIsSidebarOpen}
+      />
+
       <div className="hidden lg:flex">
         <Button
           variant="secondary"
@@ -79,6 +91,17 @@ export const Navbar = () => {
           asChild
         >
           <Link href="/sign-up">Start selling</Link>
+        </Button>
+      </div>
+
+      {/* 모바일 사이드 바 열기 버튼 */}
+      <div className="flex lg:hidden items-center justify-center">
+        <Button
+          variant="ghost"
+          onClick={() => setIsSidebarOpen(true)}
+          className="size-12 border-transparent bg-white"
+        >
+          <MenuIcon className="size-6" />
         </Button>
       </div>
     </nav>
