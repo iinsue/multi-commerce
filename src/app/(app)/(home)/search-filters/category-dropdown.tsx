@@ -47,7 +47,9 @@ export const CategoryDropdown = ({
           className={cn(
             "h-11 px-4 bg-transparent border-transparent rounded-full text-black",
             "hover:border-primary hover:bg-white",
-            isActive && !isNavigationHovered && "bg-white border-primary"
+            isActive && !isNavigationHovered && "bg-white border-primary",
+            isOpen &&
+              "bg-white border-primary shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] -translate-x-[4px] -translate-y-[4px]"
           )}
         >
           {category.name}
