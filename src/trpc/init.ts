@@ -1,5 +1,7 @@
-import { initTRPC } from "@trpc/server";
 import { cache } from "react";
+import { getPayload } from "payload";
+import config from "@payload-config";
+import { initTRPC } from "@trpc/server";
 
 export const createTRPCContext = cache(async () => {
   /**
@@ -20,4 +22,10 @@ const t = initTRPC.create({
 // Base router and procedure helpers
 export const createTRPCRouter = t.router;
 export const createCallerFactory = t.createCallerFactory;
-export const baseProcedure = t.procedure;
+
+// 매번 OOOORouter를 만들때 마다 getPayload를 추가해야 하므로
+// middleware에 추가하는 것 처럼 초기 설정에 포함시켜 코드 반복제거
+export const baseProcedure = t.procedure.use(async ({ next }) => {
+  const payload = await getPayload({ config });
+  return next({ ctx: { db: payload } });
+});
