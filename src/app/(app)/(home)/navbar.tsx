@@ -4,12 +4,16 @@ import Link from "next/link";
 import { useState } from "react";
 import { Poppins } from "next/font/google";
 import { usePathname } from "next/navigation";
+import { useQuery } from "@tanstack/react-query";
 
 import { cn } from "@/lib/utils";
+import { useTRPC } from "@/trpc/client";
+
 import { Button } from "@/components/ui/button";
 
-import { NavbarSidebar } from "./navbar-sidebar";
 import { MenuIcon } from "lucide-react";
+
+import { NavbarSidebar } from "./navbar-sidebar";
 
 // poppins폰트는 굵기700만 제공합니다.
 const poppins = Poppins({
@@ -50,6 +54,9 @@ export const Navbar = () => {
   const pathname = usePathname();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
+  const trpc = useTRPC();
+  const session = useQuery(trpc.auth.session.queryOptions());
+
   return (
     <nav className="h-20 flex border-b justify-between font-medium bg-white">
       <Link href="/" className="pl-6 flex items-center">
@@ -77,26 +84,37 @@ export const Navbar = () => {
         onOpenChange={setIsSidebarOpen}
       />
 
-      <div className="hidden lg:flex">
-        <Button
-          variant="secondary"
-          className="border-0 border-l px-12 h-full rounded-none bg-white hover:bg-pink-400 transition-colors text-lg"
-          asChild
-        >
-          <Link prefetch href="/sign-in">
-            Log in
-          </Link>
-        </Button>
+      {session.data?.user ? (
+        <div className="hidden lg:flex">
+          <Button
+            className="border-0 border-l px-12 h-full rounded-none bg-black hover:bg-pink-400 text-white hover:text-black transition-colors text-lg"
+            asChild
+          >
+            <Link href="/admin">Dashboard</Link>
+          </Button>
+        </div>
+      ) : (
+        <div className="hidden lg:flex">
+          <Button
+            variant="secondary"
+            className="border-0 border-l px-12 h-full rounded-none bg-white hover:bg-pink-400 transition-colors text-lg"
+            asChild
+          >
+            <Link prefetch href="/sign-in">
+              Log in
+            </Link>
+          </Button>
 
-        <Button
-          className="border-0 border-l px-12 h-full rounded-none bg-black hover:bg-pink-400 text-white hover:text-black transition-colors text-lg"
-          asChild
-        >
-          <Link prefetch href="/sign-up">
-            Start selling
-          </Link>
-        </Button>
-      </div>
+          <Button
+            className="border-0 border-l px-12 h-full rounded-none bg-black hover:bg-pink-400 text-white hover:text-black transition-colors text-lg"
+            asChild
+          >
+            <Link prefetch href="/sign-up">
+              Start selling
+            </Link>
+          </Button>
+        </div>
+      )}
 
       {/* 모바일 사이드 바 열기 버튼 */}
       <div className="flex lg:hidden items-center justify-center">
