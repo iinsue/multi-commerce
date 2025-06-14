@@ -8,8 +8,8 @@ import {
   ProductList,
   ProductListSkeleton,
 } from "@/modules/products/ui/components/product-list";
+import { loadProductFilters } from "@/modules/products/search-params";
 import { ProductFilters } from "@/modules/products/ui/components/product-filters";
-import { loadProductFilters } from "@/modules/products/hooks/use-product-filters";
 
 interface Props {
   params: Promise<{ category: string }>;
