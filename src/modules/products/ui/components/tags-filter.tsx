@@ -51,6 +51,8 @@ export const TagsFilter = ({ value, onChange }: TagsFilterProps) => {
               <Checkbox
                 checked={value?.includes(tag.name)}
                 onCheckedChange={() => onClick(tag.name)}
+                // 체크박스 내부 클릭 시 버블링 방지
+                onClick={(event) => event.stopPropagation()}
               />
             </div>
           ))

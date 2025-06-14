@@ -7,8 +7,8 @@ export const tagsRouter = createTRPCRouter({
   getMany: baseProcedure
     .input(
       z.object({
-        cursor: z.number().default(1),
-        limit: z.number().default(DEFAULT_LIMIT),
+        cursor: z.number().int().gte(1).default(1),
+        limit: z.number().int().gte(1).lte(100).default(DEFAULT_LIMIT),
       })
     )
     .query(async ({ ctx, input }) => {
