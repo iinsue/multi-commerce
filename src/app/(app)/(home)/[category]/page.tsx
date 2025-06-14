@@ -1,4 +1,5 @@
 import { Suspense } from "react";
+import type { SearchParams } from "nuqs/server";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 
 import { trpc, getQueryClient } from "@/trpc/server";
@@ -8,18 +9,21 @@ import {
   ProductListSkeleton,
 } from "@/modules/products/ui/components/product-list";
 import { ProductFilters } from "@/modules/products/ui/components/product-filters";
+import { loadProductFilters } from "@/modules/products/hooks/use-product-filters";
 
 interface Props {
   params: Promise<{ category: string }>;
+  searchParams: Promise<SearchParams>;
 }
 
 // http://localhost:3000/[category]
-const CategoryPage = async ({ params }: Props) => {
+const CategoryPage = async ({ params, searchParams }: Props) => {
   const { category } = await params;
+  const filters = await loadProductFilters(searchParams);
 
   const queryClient = getQueryClient();
   void queryClient.prefetchQuery(
-    trpc.products.getMany.queryOptions({ category })
+    trpc.products.getMany.queryOptions({ category, ...filters })
   );
 
   return (
