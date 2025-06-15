@@ -74,6 +74,7 @@ export const Categories = ({ data }: Props) => {
       <div
         ref={measureRef}
         className="absolute opacity-0 pointer-events-none flex"
+        style={{ position: "fixed", top: -9999, left: -9999 }}
       >
         {data?.map((category) => (
           <div key={category.id}>
