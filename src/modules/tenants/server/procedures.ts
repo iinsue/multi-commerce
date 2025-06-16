@@ -8,7 +8,7 @@ export const tenantsRouter = createTRPCRouter({
   getOne: baseProcedure
     .input(
       z.object({
-        slug: z.string(),
+        slug: z.string().trim().min(1),
       })
     )
     .query(async ({ ctx, input }) => {
