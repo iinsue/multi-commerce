@@ -12,9 +12,13 @@ export function generateTenantURL(tenantSlug: string) {
 
 // 금액 단위
 export function formatCurrency(value: number | string) {
+  const amount = Number(value);
+  if (Number.isNaN(amount)) return "";
+
   return new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",
+    minimumFractionDigits: 0,
     maximumFractionDigits: 0,
-  }).format(Number(value));
+  }).format(amount);
 }

@@ -37,7 +37,9 @@ export const ProductCard = ({
 
   return (
     // http://localhost:3000/tenants/[tenantId]/products/[productId]
-    <Link href={`${generateTenantURL(tenantSlug)}/products/${id}`}>
+    <Link
+      href={`${generateTenantURL(tenantSlug)}/products/${encodeURIComponent(id)}`}
+    >
       <div
         className={cn(
           "border rounded-md bg-white overflow-hidden h-full flex flex-col",
