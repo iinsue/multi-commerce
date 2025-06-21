@@ -41,7 +41,7 @@ export async function POST(req: Request) {
 
     try {
       switch (event.type) {
-        case "checkout.session.completed":
+        case "checkout.session.completed": {
           data = event.data.object as Stripe.Checkout.Session;
 
           if (!data.metadata?.userId) {
@@ -86,6 +86,7 @@ export async function POST(req: Request) {
             });
           }
           break;
+        }
         default:
           throw new Error(`Unhandled event: ${event.type}`);
       }
