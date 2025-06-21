@@ -50,6 +50,8 @@ export const CheckoutView = ({ tenantSlug }: CheckoutViewProps) => {
   );
 
   useEffect(() => {
+    // http://localhost:3000/tenants/insu/checkout?success=true
+
     if (states.success) {
       setStates({ success: false, cancel: false });
       clearCart();
