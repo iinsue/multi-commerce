@@ -25,7 +25,7 @@ export const ProductCard = ({
   reviewCount,
 }: ProductCardProps) => {
   return (
-    <Link href={`/library/${id}`}>
+    <Link prefetch href={`/library/${id}`}>
       <div
         className={cn(
           "border rounded-md bg-white overflow-hidden h-full flex flex-col",
