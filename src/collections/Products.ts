@@ -21,8 +21,7 @@ export const Products: CollectionConfig = {
   },
   fields: [
     { name: "name", type: "text", required: true },
-    // TODO: Change to RichText
-    { name: "description", type: "text" },
+    { name: "description", type: "richText" },
     {
       name: "price",
       type: "number",
@@ -56,8 +55,7 @@ export const Products: CollectionConfig = {
     },
     {
       name: "content",
-      // TODO: Change to RichText
-      type: "textarea",
+      type: "richText",
       admin: {
         description:
           "Protected content only visible to customers after purchase. Add product documentation, downloadable files, getting started guides, and bonus materials. Supports Markdown formatting",
