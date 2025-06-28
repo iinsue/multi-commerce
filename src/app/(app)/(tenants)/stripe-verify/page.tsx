@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { LoaderIcon } from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
 
@@ -19,9 +19,14 @@ const Page = () => {
     })
   );
 
-  useEffect(() => {
+  // useCallback으로 verify 함수를 안정화시키기기
+  const verifyCallback = useCallback(() => {
     verify();
   }, [verify]);
+
+  useEffect(() => {
+    verifyCallback();
+  }, [verifyCallback]);
 
   return (
     <div className="flex min-h-screen items-center justify-center">
