@@ -7,7 +7,16 @@ export function cn(...inputs: ClassValue[]) {
 
 // URL에 민감한 특수문자가 포함되어 경로가 깨지는 것 방지를 위해 encodeURIComponent 추가
 export function generateTenantURL(tenantSlug: string) {
-  return `/tenants/${encodeURIComponent(tenantSlug)}`;
+  // In development mode, use normal routing
+  if (process.env.NODE_ENV === "development") {
+    return `${process.env.NEXT_PUBLIC_APP_URL}/tenants/${tenantSlug}`;
+  }
+
+  const protocol = "https";
+  const domain = process.env.NEXT_PUBLIC_ROOT_DOMAIN!;
+
+  // In production, use subdomain routing (ex. https://insu.funroad.com)
+  return `${protocol}://${tenantSlug}.${domain}`;
 }
 
 // 금액 단위
