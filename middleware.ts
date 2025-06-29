@@ -1,16 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 export const config = {
-  matcher: [
-    /**
-     * Match all paths except for:
-     * 1. /api routes
-     * 2. /_next (Next.js internals)
-     * 3. /_static (inside /public)
-     * 4. all root files inside /public(e.g. /favicon.ico)
-     *  */
-    "/((?!api/|_next/|_static/|_vercel|media/|[\\w-]+\\.\\w+).*)",
-  ],
+  matcher: "/:path*",
 };
 
 export default async function middleware(req: NextRequest) {
@@ -22,6 +13,7 @@ export default async function middleware(req: NextRequest) {
 
   if (hostname.endsWith(`.${rootDomain}`)) {
     const tenantSlug = hostname.replace(`.${rootDomain}`, "");
+    console.log("REWRITE:", `/tenants/${tenantSlug}${url.pathname}`);
     return NextResponse.rewrite(
       new URL(`/tenants/${tenantSlug}${url.pathname}`, req.url)
     );
