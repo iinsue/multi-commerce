@@ -10,6 +10,8 @@ import { SearchInput } from "./search-input";
 import { DEFAULT_BG_COLOR } from "../../../constants";
 import { BreadcrumbNavigation } from "./breadcrumb-navigation";
 
+import { useProductFilters } from "@/modules/products/hooks/use-product-filters";
+
 // fallback에 들어갈 스켈레톤
 export const SearchFiltersSkeleton = () => {
   return (
@@ -30,6 +32,7 @@ export const SearchFiltersSkeleton = () => {
 const SearchFilters = () => {
   const trpc = useTRPC();
   const { data } = useSuspenseQuery(trpc.categories.getMany.queryOptions());
+  const [filters, setFilters] = useProductFilters();
 
   const params = useParams();
   const categoryParam = params.category as string | undefined;
@@ -56,7 +59,11 @@ const SearchFilters = () => {
           backgroundColor: activeCategoryColor,
         }}
       >
-        <SearchInput />
+        <SearchInput
+          defaultValue={filters.search}
+          onChange={(value) => setFilters({ search: value })}
+        />
+
         <div className="hidden lg:block">
           <Categories data={data} />
         </div>
